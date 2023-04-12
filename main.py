@@ -2,6 +2,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+import psycopg2
 
 # Instanciar o aplicativo Flask
 app = Flask(__name__)
