@@ -2,7 +2,7 @@ import os
 
 
 # Varrer o diretório do parâmetro "caminho" e inseri-lo na lista arquivos que será retornada como resposta.
-def listar_arquivos(caminho):
+def listar_arquivos_diretorios(caminho):
     arquivos = []
     for raiz, diretorios, arquivos_lista in os.walk(caminho):
         for arquivo in arquivos_lista:
@@ -19,11 +19,12 @@ def salvar_arquivo_txt(lista_arquivos, nome_arquivo_txt):
             f.write(linha)
 
 
+# Somente para teste separado do programa main
 if __name__ == "__main__":
     caminho_diretorio = input("Digite o caminho do diretório a ser varrido: ")
     nome_arquivo_saida = input("Digite o nome do arquivo .txt de saída: ")
 
-    arquivos = listar_arquivos(caminho_diretorio)
+    arquivos = listar_arquivos_diretorios(caminho_diretorio)
     salvar_arquivo_txt(arquivos, nome_arquivo_saida)
 
     print(f"Arquivo {nome_arquivo_saida} criado com sucesso!")
