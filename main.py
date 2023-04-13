@@ -14,7 +14,7 @@ db = 'postgresql'  # banco, pymysql = drive utilizado
 db_drive = 'psycopg2'  # drive para acesso ao banco
 db_username = 'postgres'  # usuário do banco de dados
 db_password = 'admin000'  # senha
-db_hostname = '192.168.18.152'  # endereço do servidor do banco de dados
+db_hostname = 'localhost'  # endereço do servidor do banco de dados
 db_name = 'Rotas'  # nome do banco a ser utilizado
 
 # Concatena as configurações na string de configuração do banco de dados do SQLAlchemy
@@ -158,6 +158,9 @@ def atualizar():
 @app.route("/limpar_tabela")
 def limpar_tabela():
     ArquivoDiretorio.query.delete()
+    # Reinicia contagem da coluna id após limpar a tabela
+    query = text(f"ALTER SEQUENCE arquivo_diretorio_id_seq RESTART WITH 1")
+    db.session.execute(query)
     db.session.commit()
     return redirect("/")
 
