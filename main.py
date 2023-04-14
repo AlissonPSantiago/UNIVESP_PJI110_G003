@@ -97,14 +97,7 @@ def criar_tabela():
 @app.route('/ler_registros')
 def listar_arquivos():
     arquivos = ArquivoDiretorio.query.all()
-    print(arquivos)
-
-    if not arquivos:
-        return "Nenhum arquivo encontrado."
-    elif len(arquivos) == 1:
-        return str(arquivos[0])
-    else:
-        return ', '.join(str(arquivo) for arquivo in arquivos)
+    return render_template('/tabela_leitura_registros.html', leitura=arquivos)
 
 
 # Definir rota para exibir o formulário de inserção de novos registros manualmente *Tabela Arquivos
