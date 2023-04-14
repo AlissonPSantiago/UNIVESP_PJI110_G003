@@ -23,7 +23,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'{db}+{db_drive}://{db_username}:{db_pa
 # Instancia o objeto para realizar as interações com o banco de dados
 db = SQLAlchemy(app)
 
-
 # Modelo da classe Arquivos conforme a tabela arquivos do banco de dados
 class Arquivos(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
