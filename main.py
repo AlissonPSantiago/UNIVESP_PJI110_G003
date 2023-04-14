@@ -40,7 +40,7 @@ class ArquivoDiretorio(db.Model):
     diretorio = db.Column(db.String[250], nullable=False)
 
     def __repr__(self):
-        return f'{self.codigo}-- {self.caminho}'
+        return f'{self.arquivo}-- {self.diretorio}'
 
 
 # Definir função para testar conexão com o banco de dados
@@ -130,7 +130,7 @@ def enviar():
 # Página para definir o campo de diretório que será varrido
 @app.route("/menu_atualizar_arquivos")
 def inserir_txt():
-    return render_template("atualizar.html")
+    return render_template("/menu_atualizar_arquivos.html")
 
 
 # Página chamada pelo html da página /menu_atualizar_arquivos que retorna o diretório pelo parâmetro do request.form
