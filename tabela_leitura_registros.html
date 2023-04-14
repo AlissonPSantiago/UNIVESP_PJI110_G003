@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Arquivos</title>
+</head>
+<body>
+    <h1>Lista de Arquivos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Arquivo</th>
+                <th>Diretório</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for arquivo in arquivos %}
+                <tr>
+                    <td>{{ arquivo.arquivo }}</td>
+                    <td>{{ arquivo.diretorio }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

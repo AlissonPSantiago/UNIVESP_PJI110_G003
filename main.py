@@ -23,24 +23,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'{db}+{db_drive}://{db_username}:{db_pa
 # Instancia o objeto para realizar as interações com o banco de dados
 db = SQLAlchemy(app)
 
-# Modelo da classe Arquivos conforme a tabela arquivos do banco de dados
-class Arquivos(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome = db.Column(db.String(12), nullable=False)
-    caminho = db.Column(db.String(200), nullable=False)
-    modificacao = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
 
-    def __repr__(self):
-        return f'{self.nome}: Caminho=[{self.caminho}] '
-
-
+# Tabela ArquivoDiretorio ("arquivo_diretorio" no postgresql)
 class ArquivoDiretorio(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     arquivo = db.Column(db.String[10], nullable=False)
     diretorio = db.Column(db.String[250], nullable=False)
 
     def __repr__(self):
-        return f'{self.arquivo}-- {self.diretorio}'
+        return f'{self.arquivo}, {self.diretorio}'
 
 
 # Definir função para testar conexão com o banco de dados
@@ -66,7 +57,7 @@ def inserir_txt_no_banco(arquivo_txt):
             try:
                 # manipula linha para inseri-la no banco sem caracteres especiais
                 arquivo, diretorio = linha.replace("'", '').strip("('").replace(")", '').split(', ')
-            except Exception as erro:
+            except Exception:
                 # ignora erro na formatação do nome do arquivo ou do diretório
                 print(f'Problema na linha {contagem_insercoes} - Continuando a insercao e ignorando essa linha')
             else:
@@ -76,6 +67,14 @@ def inserir_txt_no_banco(arquivo_txt):
             contagem_insercoes += 1  # Contagem da quantidade de linhas inseridas
         db.session.commit()  # Insere toda a pilha acumulado ao banco de dados
     return contagem_insercoes
+
+
+def limpar_tabela():
+    ArquivoDiretorio.query.delete()
+    # Reinicia contagem da coluna id após limpar a tabela
+    query = text(f"ALTER SEQUENCE arquivo_diretorio_id_seq RESTART WITH 1")
+    db.session.execute(query)
+    db.session.commit()
 
 
 # ------------------- ROTAS E FUNÇÕES DO FLASK ----------------------
@@ -95,7 +94,7 @@ def criar_tabela():
 
 # ------------------- ROTAS DOS TESTES NA TABELA ARQUIVO COM INSERÇÃO MANUAL -----------------------
 # Definir rota para listar valores da tabela arquivos
-@app.route('/arquivos')
+@app.route('/ler_registros')
 def listar_arquivos():
     arquivos = ArquivoDiretorio.query.all()
     print(arquivos)
@@ -114,13 +113,12 @@ def formulario():
     return render_template('formulario.html')
 
 
-# Definir rota para enviar dados do formulário *Teste na tabela arquivos com os registros sendo inseridos manualmente
+# Definir rota para enviar dados do formulário
 @app.route('/enviar', methods=['POST'])
 def enviar():
     nome = request.form['nome']
     caminho = request.form['caminho']
-
-    novo_arquivo = Arquivos(nome=nome, caminho=caminho)
+    novo_arquivo = ArquivoDiretorio(arquivo=nome, diretorio=caminho)
     db.session.add(novo_arquivo)
     db.session.commit()
 
@@ -141,6 +139,7 @@ def inserir_txt():
 @app.route("/atualizar", methods=['POST'])
 def atualizar():
     diretorio = request.form['diretorio']
+    limpar_tabela()  # Limpa a tabela antes de atualizar os registros
     t_inicial = time.time()  # Salva tempo atual antes de executar as funções
     arquivos = listagem_diretorios.listar_arquivos_diretorios(diretorio)
     listagem_diretorios.salvar_arquivo_txt(arquivos, "ListaDiretorios.txt")
@@ -155,12 +154,8 @@ def atualizar():
 
 # Limpa toda a tabela arquivo_diretorio
 @app.route("/limpar_tabela")
-def limpar_tabela():
-    ArquivoDiretorio.query.delete()
-    # Reinicia contagem da coluna id após limpar a tabela
-    query = text(f"ALTER SEQUENCE arquivo_diretorio_id_seq RESTART WITH 1")
-    db.session.execute(query)
-    db.session.commit()
+def comando_limpar_tabela():
+    limpar_tabela()
     return redirect("/")
 
 
