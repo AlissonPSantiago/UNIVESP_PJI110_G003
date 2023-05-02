@@ -3,77 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Inicial</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1, h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-top: 20px;
-        }
-        h3 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        p {
-            text-align: center;
-            color: #34495e;
-        }
-
-        .menu {
-            width: 50%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            display: block;
-            background-color: #3498db;
-            color: white;
-            font-size: 16px;
-            border: none;
-            width: 100%;
-            border-radius: 5px;
-            padding: 10px 20px;
-            margin: 10px auto;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-    </style>
-</head>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css"/>
+<head>
 <body>
-    <h1>Sistema de Registros de Diretórios - PI</h1>
-    <p>Sistema para teste de acesso ao banco de dados, inserção de registros e criação da tabela de teste.</p>
-    <div class="menu">
-        <h2>Criar Tabelas no Banco (caso não existam)</h2>
-        <button onclick="location.href='/criar'">Criar tabelas</button>
-    </div>
-    <div class="menu">
-        <h2>Inserção Manual na Tabela Arquivos</h2>
-        <button onclick="location.href='/formulario'">Acessar formulário de inserção de registros</button>
-    </div>
-    
-    <div class="menu">
-        <h2>Localizador Automático de Arquivos</h2>
-        <button onclick="location.href='/menu_atualizar_arquivos'">Atualizar arquivos automaticamente</button>
-        <button onclick="location.href='/ler_registros'">Ler registros</button>
-        <button onclick="location.href='/limpar_tabela'">Limpar tabela</button>
-    </div>
+    <div id="layout" class="page">
+        <div class="page_menu_nav">
+            <h2 class = "page_menu_title">Menu</h2>
+            <a href="./index.html" class="page_menu_nav_buttom">Home</a> 
+            <a href="./alteracao_manual.html" class="page_menu_nav_buttom">Alterar Registro</a> 
+            <a href="#" class="page_menu_nav_buttom">Consultar Registros</a> 
+            <a href="./atualizar_registros.html" class="page_menu_nav_buttom">Scan de Diretório</a> 
+            <a href=# class="page_menu_nav_buttom">Ajuda</a> 
+        </div>
+        <div class="page_content">
+            <div class = "page_content_title">
+                <h1 class="page_content_title_title">Sistema de Registros de Diretórios - PI</h1>
+                <p class = "page_content_title_info">Sistema para teste de acesso ao banco de dados, inserção de registros e criação da tabela de teste.</p>
+            </div>
+                <div id="temp_func">
+                    <h2 class = "page_content_box_subtitle">Criar Tabelas no Banco (caso não existam)</h2>
+                    <p class = "page_content_subinfo">*Função de prototipagem*</p>
+                    <button class = "page_content_box_button" onclick="location.href='/criar'">Criar tabelas</button>
+                </div>
+        </div> 
+    </div> 
 </body>
 </html>

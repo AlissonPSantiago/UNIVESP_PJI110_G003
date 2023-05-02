@@ -1,0 +1,144 @@
+/* * -- LAYOUT STYLES --
+* This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
+*/
+:root{
+    --left_menu_color: #146C94;
+    --left_menu_title_color: #FFF;
+    --left_menu_options_color: #FFF;
+    --left_menu_options_hover_color: #AFD3E2;
+    --left_menu_text_color: #FFF;
+    --content_color: #F6F1F1;
+    --content_title_color: #146C94;
+    --box_color: #AEBDCA;
+    --content_text_color: #146C94;
+    --content_box_text_color: #000;
+    --content_buttom_color: #F6F1F1;
+    --content_buttom_text_color: #000;
+}
+
+
+
+*{
+   margin: 0;
+   padding: 0;
+}
+
+.page{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+
+    
+}
+.page_menu_nav{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 30%;
+    background-color: var(--left_menu_color);
+    padding: 5% 2% 2% 2%;
+    box-sizing: border-box;
+    box-shadow:0 0 5px 1px rgb(0, 0, 0);
+}
+.page_menu_title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--left_menu_title_color);
+    margin-bottom: 10px;
+    padding-left: 4%;
+    border-bottom: 1px solid #b5c5d2;
+    padding-bottom: 10px;
+    cursor: default;
+  }
+.page_menu_nav_buttom{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 2%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--left_menu_text_color);
+    text-decoration: none;
+    text-align: left;
+    padding-left: 4%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.page_menu_nav_buttom:hover{
+    background-color: var(--left_menu_options_hover_color);
+    color:#000
+    
+}
+.page_content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding-left: 32%;
+    padding-right: 2%;
+    padding-top: 5%;
+    box-sizing: border-box;
+    overflow:auto;
+    background-color: var(--content_color);
+}
+.page_content_title_title{
+    color: var(--content_title_color);
+    margin-bottom: 2%;
+}
+.page_content_title_info{
+    color: var(--content_text_color);
+}
+.page_content_box{
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    background-color: var(--box_color);
+    padding: 5%;
+    box-shadow: 0 0 5px 1px rgb(0, 0, 0);
+    margin-bottom: 10%;
+    margin-top: 3%;
+
+}
+.page_content_box_button{
+    margin-left: 64%;
+    padding: 1% 4% 1%;
+    width: 20%;
+    height: auto;
+    background-color: var(--content_buttom_color);
+    color:var(--content_buttom_text_color);
+    font-size: 14px;
+    border-radius: 7px;
+}
+
+.page_content_box_form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items:center;
+
+}
+.page_content_box_form_input{
+    width: 80%;
+    margin-bottom: 1%;
+    padding: 1% 2% 1%;
+    font: inherit;
+}
+#temp_func{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    border-radius: 4px;
+    width: 60%;
+    background-color: var(--box_color);
+    padding: 5%;
+    box-shadow: 0 0 5px 1px rgb(0, 0, 0);
+    margin-bottom: 10%;
+    margin-top: 30%;
+    margin-left: 15%;
+    margin-right: 10%;
+}
