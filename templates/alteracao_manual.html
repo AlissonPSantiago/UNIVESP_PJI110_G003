@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Alteração Manual</title>
-    <link rel="stylesheet" type="text/css" href="styles/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}" />
 <head>
 <body>
 <div id="layout" class="page">
     <div class="page_menu_nav">
         <h2 class = "page_menu_title">Menu</h2>
-        <a href="./index.html" class="page_menu_nav_buttom">Home</a> 
-        <a href="./alteracao_manual.html" class="page_menu_nav_buttom">Alterar Registro</a> 
-        <a href="#" class="page_menu_nav_buttom">Consultar Registros</a> 
-        <a href="./atualizar_registros.html" class="page_menu_nav_buttom">Scan de Diretório</a> 
+        <a href="/" class="page_menu_nav_buttom">Home</a> 
+        <a href="{{ url_for('alteracao_manual') }}" class="page_menu_nav_buttom">Alterar Registro</a> 
+        <a href="{{ url_for('tabela_leitura_registros')}}" class="page_menu_nav_buttom">Consultar Registros</a> 
+        <a href="{{ url_for('atualizar_registros') }}" class="page_menu_nav_buttom">Scan de Diretório</a> 
         <a href=# class="page_menu_nav_buttom">Ajuda</a> 
     </div>
     <div class="page_content">
@@ -27,7 +27,7 @@
                 </div>
         </div>
         <div>
-            <h1 class = "page_content_title_title">Inserir registro manualmente</h1>
+            <h1 class = "page_content_title_title">Alterar Registro</h1>
             <p>Ainda em construção</p><br>
                 <div class="page_content_box">
                     <form class = "page_content_box_form" action="/enviar" method="post">

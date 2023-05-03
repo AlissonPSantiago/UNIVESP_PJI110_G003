@@ -94,16 +94,16 @@ def criar_tabela():
 
 # ------------------- ROTAS DOS TESTES NA TABELA ARQUIVO COM INSERÇÃO MANUAL -----------------------
 # Definir rota para listar valores da tabela arquivos
-@app.route('/ler_registros')
-def listar_arquivos():
+@app.route('/tabela_leitura_registros')
+def tabela_leitura_registros():
     arquivos = ArquivoDiretorio.query.all()
     return render_template('/tabela_leitura_registros.html', leitura=arquivos)
 
 
 # Definir rota para exibir o formulário de inserção de novos registros manualmente *Tabela Arquivos
-@app.route('/formulario')
-def formulario():
-    return render_template('formulario.html')
+@app.route('/alteracao_manual')
+def alteracao_manual():
+    return render_template('alteracao_manual.html')
 
 
 # Definir rota para enviar dados do formulário
@@ -120,8 +120,8 @@ def enviar():
 
 # Página para definir o campo de diretório que será varrido
 @app.route("/menu_atualizar_arquivos")
-def inserir_txt():
-    return render_template("/menu_atualizar_arquivos.html")
+def atualizar_registros():
+    return render_template("/atualizar_registros.html")
 
 
 # Página chamada pelo html da página /menu_atualizar_arquivos que retorna o diretório pelo parâmetro do request.form

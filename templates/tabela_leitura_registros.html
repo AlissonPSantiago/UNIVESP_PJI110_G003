@@ -2,11 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Arquivos</title>
+    <title>Tabela de registros</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}" />
 </head>
 <body>
-    <h1>Lista de Arquivos</h1>
-    <table border="1">
+    <div id="layout" class="page">
+        <div class="page_menu_nav">
+            <h2 class = "page_menu_title">Menu</h2>
+            <a href="/" class="page_menu_nav_buttom">Home</a> 
+            <a href="{{ url_for('alteracao_manual') }}" class="page_menu_nav_buttom">Alterar Registro</a> 
+            <a href="{{ url_for('tabela_leitura_registros')}}" class="page_menu_nav_buttom">Consultar Registros</a> 
+            <a href="{{ url_for('atualizar_registros') }}" class="page_menu_nav_buttom">Scan de Diretório</a> 
+            <a href=# class="page_menu_nav_buttom">Ajuda</a> 
+        </div>
+        <div class="page_content">        
+        <h1>Lista de Arquivos</h1>
+        <table border="1">
         <thead>
             <tr>
                 <th>Arquivo</th>
@@ -21,6 +32,7 @@
                 </tr>
             {% endfor %}
         </tbody>
-    </table>
+        </table>
+        </div> 
 </body>
 </html>
