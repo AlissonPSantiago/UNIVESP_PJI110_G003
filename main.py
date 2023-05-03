@@ -1,7 +1,7 @@
 # Importar bibliotecas necessárias
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from sqlalchemy import text, desc
 import psycopg2
 import listagem_diretorios
 import time
@@ -29,9 +29,10 @@ class ArquivoDiretorio(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     arquivo = db.Column(db.String[10], nullable=False)
     diretorio = db.Column(db.String[250], nullable=False)
+    timestamp = db.Column(db.DateTime, server_default=text('NOW()'))
 
     def __repr__(self):
-        return f'{self.arquivo}, {self.diretorio}'
+        return f'{self.arquivo}, {self.diretorio}, {self.timestamp}'
 
 
 # Definir função para testar conexão com o banco de dados
@@ -78,11 +79,7 @@ def limpar_tabela():
 
 
 # ------------------- ROTAS E FUNÇÕES DO FLASK ----------------------
-# Definir rota principal para a página inicial
-@app.route("/")
-def home():
-    teste_conexao_banco()
-    return render_template("index.html")
+
 
 
 # Cria tabelaS caso não existam ainda
@@ -92,39 +89,44 @@ def criar_tabela():
     return "Tabela Criada com Sucesso"
 
 
-# ------------------- ROTAS DOS TESTES NA TABELA ARQUIVO COM INSERÇÃO MANUAL -----------------------
-# Definir rota para listar valores da tabela arquivos
-@app.route('/tabela_leitura_registros')
-def tabela_leitura_registros():
-    arquivos = ArquivoDiretorio.query.all()
-    return render_template('/tabela_leitura_registros.html', leitura=arquivos)
+# --------------------------- LINKS MENU LATERAL --------------------------------
 
+# Rota principal
+@app.route("/")
+def home():
+    teste_conexao_banco()
+    return render_template("index.html")
 
-# Definir rota para exibir o formulário de inserção de novos registros manualmente *Tabela Arquivos
+# Definir rota para inserir registros manualmente
+@app.route('/insercao_manual')
+def insercao_manual():
+    return render_template('insercao_manual.html')
+
+# Definir rota para alterar registros
 @app.route('/alteracao_manual')
 def alteracao_manual():
     return render_template('alteracao_manual.html')
 
-
-# Definir rota para enviar dados do formulário
-@app.route('/enviar', methods=['POST'])
-def enviar():
-    nome = request.form['nome']
-    caminho = request.form['caminho']
-    novo_arquivo = ArquivoDiretorio(arquivo=nome, diretorio=caminho)
-    db.session.add(novo_arquivo)
-    db.session.commit()
-
-    return redirect(url_for('formulario'))
-
+# Definir rota para listar valores da tabela arquivos
+@app.route('/tabela_leitura_registros')
+def tabela_leitura_registros():
+    arquivos = ArquivoDiretorio.query.order_by(desc(ArquivoDiretorio.timestamp)).all()
+    limite_registros = min(len(arquivos), 10)
+    return render_template('/tabela_leitura_registros.html', leitura=arquivos, limite=limite_registros)
 
 # Página para definir o campo de diretório que será varrido
-@app.route("/menu_atualizar_arquivos")
+@app.route("/atualizar_arquivos")
 def atualizar_registros():
     return render_template("/atualizar_registros.html")
 
+# Página de ajuda
+@app.route("/ajuda")
+def ajuda():
+    return render_template("/ajuda.html")
 
-# Página chamada pelo html da página /menu_atualizar_arquivos que retorna o diretório pelo parâmetro do request.form
+
+# --------------------------- FUNÇÕES --------------------------------
+# Página chamada pelo html da página /atualizar_registros que retorna o diretório pelo parâmetro do request.form
 # ['diretorio']
 # Essa página que chama as funções para listar os arquivos numa lista que será passada para a função'salvar_arquivo_txt'
 # que irá gerar um arquivo.txt com todos os registros e que será passado para a 'inserir_dados_arquivos_txt'
@@ -145,11 +147,49 @@ def atualizar():
     return f"Atualização realizada - {contagem_inseridos} registros inserios - Levou {t_total} segundos"
 
 
+# Definir rota para enviar dados do formulário
+@app.route('/enviar', methods=['POST'])
+def enviar():
+    nome = request.form['form_manual_name']
+    caminho = request.form['form_manual_path']
+    novo_arquivo = ArquivoDiretorio(arquivo=nome, diretorio=caminho)
+    db.session.add(novo_arquivo)
+    db.session.commit()
+
+    return redirect(url_for('insercao_manual'))
+
+
 # Limpa toda a tabela arquivo_diretorio
 @app.route("/limpar_tabela")
 def comando_limpar_tabela():
     limpar_tabela()
     return redirect("/")
+
+# Rota para pesquisar registro por nome de arquivo
+@app.route("/buscar_registro", methods=['POST'])
+def buscar_registro():
+    nome_arquivo = request.form['nome_arquivo']
+    registro = ArquivoDiretorio.query.filter_by(arquivo=nome_arquivo).first()
+    if registro:
+        return render_template('alteracao_manual.html', registro=registro)
+    else:
+        msg = "Registro não encontrado"
+        return render_template('alteracao_manual.html', msg=msg)
+    
+# Rota para atualizar registro
+@app.route("/alterar_registro", methods=['POST'])
+def alterar_registro():
+    registro_id = request.form['id']
+    novo_arquivo = request.form['arquivo']
+    novo_diretorio = request.form['diretorio']
+    registro = ArquivoDiretorio.query.get(registro_id)
+    if registro:
+        registro.arquivo = novo_arquivo
+        registro.diretorio = novo_diretorio
+        db.session.commit()
+        return redirect(url_for('tabela_leitura_registros'))
+    else:
+        return "Registro não encontrado"
 
 
 # Executar o aplicativo Flask

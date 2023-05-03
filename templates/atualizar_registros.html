@@ -10,10 +10,11 @@
     <div class="page_menu_nav">
         <h2 class = "page_menu_title">Menu</h2>
         <a href="/" class="page_menu_nav_buttom">Home</a> 
+        <a href="{{ url_for('insercao_manual') }}" class="page_menu_nav_buttom">Inserção Manual de Registro</a> 
         <a href="{{ url_for('alteracao_manual') }}" class="page_menu_nav_buttom">Alterar Registro</a> 
         <a href="{{ url_for('tabela_leitura_registros')}}" class="page_menu_nav_buttom">Consultar Registros</a> 
         <a href="{{ url_for('atualizar_registros') }}" class="page_menu_nav_buttom">Scan de Diretório</a> 
-        <a href=# class="page_menu_nav_buttom">Ajuda</a> 
+        <a href="{{ url_for('ajuda') }}" class="page_menu_nav_buttom">Ajuda</a> 
     </div>
     <div class="page_content">        
         <h1 class = "page_content_title_title"> Informe o diretório</h1>
@@ -27,4 +28,3 @@
 </div> 
 </body>
 </html>
-``` 

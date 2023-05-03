@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Tabela de registros</title>
+    <title>Página Inicial</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}" />
-</head>
+
+<head>
 <body>
     <div id="layout" class="page">
         <div class="page_menu_nav">
@@ -16,27 +17,18 @@
             <a href="{{ url_for('atualizar_registros') }}" class="page_menu_nav_buttom">Scan de Diretório</a> 
             <a href="{{ url_for('ajuda') }}" class="page_menu_nav_buttom">Ajuda</a> 
         </div>
-        <div class="page_content">        
-        <h1>Lista de Arquivos</h1>
-        <h5> Os arquivos estão organizados de acordo com a ordem de alteração ou inserção mais recente.</h5>
-        <table border="1">
-        <thead>
-            <tr>
-                <th>Arquivo</th>
-                <th>Diretório</th>
-                <th>Atualizado em:</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in range(limite) %}
-            <tr>
-                <td>{{ leitura[i].arquivo }}</td>
-                <td>{{ leitura[i].diretorio }}</td>
-                <td>{{ leitura[i].timestamp.strftime('%H:%M:%S - %d/%m/%Y') }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        </table>
+        <div class="page_content">
+            <div class = "page_content_title">
+                <h1 class="page_content_title_title">Ajuda</h1>
+            </div>
+                <div id="temp_func">
+                    <h2 class = "page_content_box_subtitle">Criar Tabelas no Banco (caso não existam)</h2>
+                    <p class = "page_content_subinfo">*Função de prototipagem*</p>
+                    <button class = "page_content_box_button" onclick="location.href='/criar'">Criar tabelas</button>
+                </div>
+                <button class = "page_content_box_button" onclick="location.href='/limpar_tabela'">Limpar Tabela</button>
+
         </div> 
+    </div> 
 </body>
 </html>
